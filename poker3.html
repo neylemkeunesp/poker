@@ -12,8 +12,6 @@
             line-height: 1.6;
             padding: 20px;
         }
-        updateUI();
-        updateUI();
         #game {
             max-width: 800px;
             margin: 0 auto;
@@ -119,7 +117,7 @@
             for (let suit of suits) {
                 for (let value of cardValues) {
                     deck.push(value + suit);
-                }
+            }
                 }
             }
         }
@@ -200,6 +198,7 @@
             updateUI();
             if (!players[currentPlayerIndex].isHuman) {
                 setTimeout(computerAction, 1000);
+            }
             }
         }
 
