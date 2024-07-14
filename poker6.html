@@ -343,6 +343,7 @@
                 case 1: resultMessage += "um Par!"; break;
                 case 0: resultMessage += "Carta Alta!"; break;
             }
+            resultMessage += `<br>Melhor mão: ${handStrengths[0].hand.map(formatCard).join('')}`;
             document.getElementById('result').innerHTML = resultMessage;
             updateUI();
             logGameResult(resultMessage);
