@@ -348,9 +348,6 @@
             players[currentPlayerIndex].folded = true;
             nextPlayer();
         });
-    </script>
-</body>
-</html>
         function getBestHand(allCards, valueCounts, suitCounts, handType) {
             const cardValueOrder = cardValues.concat(cardValues).slice(0, 14); // To handle Ace as both high and low
             const sortedCards = allCards.sort((a, b) => cardValueOrder.indexOf(b.slice(0, -1)) - cardValueOrder.indexOf(a.slice(0, -1)));
@@ -400,3 +397,6 @@
 
             return sortedCards.slice(0, 5); // High Card
         }
+    </script>
+</body>
+</html>
