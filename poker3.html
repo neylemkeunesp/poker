@@ -152,9 +152,15 @@
             pot = 0;
             currentBet = 0;
             currentBettingRound = 0;
-            currentPlayerIndex = 0;
+            currentPlayerIndex = 1; // Start with the player after the dealer
 
             updateUI();
+            if (!players[currentPlayerIndex].isHuman) {
+                setTimeout(computerAction, 1000);
+            }
+            if (!players[currentPlayerIndex].isHuman) {
+                setTimeout(computerAction, 1000);
+            }
             startBettingRound();
         }
 
@@ -194,7 +200,7 @@
         }
 
         function startBettingRound() {
-            currentPlayerIndex = 0;
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.length; // Move to the next player
             for (let player of players) {
                 player.bet = 0;
             }
