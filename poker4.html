@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poker Texas Hold'em Avançado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #006400;
+        }
+        .poker-table {
+            width: 600px;
+            height: 300px;
+            background-color: #009900;
+            border-radius: 150px;
+            border: 20px solid #8B4513;
+            position: relative;
+        }
+        .card {
+            width: 50px;
+            height: 70px;
+            background-color: #fff;
+            border: 1px solid #000;
+            border-radius: 5px;
+            position: absolute;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+        .card-back {
+            background-image: linear-gradient(45deg, #b22222 25%, transparent 25%),
+                              linear-gradient(-45deg, #b22222 25%, transparent 25%),
+                              linear-gradient(45deg, transparent 75%, #b22222 75%),
+                              linear-gradient(-45deg, transparent 75%, #b22222 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+        .player-cards {
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .player-card-1 {
+            left: -30px;
+        }
+        .player-card-2 {
+            right: -30px;
+        }
+        .community-cards {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 10px;
+        }
+        .buttons {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        #message {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="poker-table">
+        <div id="message"></div>
+        <div class="player-cards">
+            <div class="card card-back player-card-1"></div>
+            <div class="card card-back player-card-2"></div>
+        </div>
+        <div class="community-cards">
+            <div class="card card-back"></div>
+            <div class="card card-back"></div>
+            <div class="card card-back"></div>
+            <div class="card card-back"></div>
+            <div class="card card-back"></div>
+        </div>
+        <div class="buttons">
+            <button onclick="action('check')">Check</button>
+            <button onclick="action('call')">Call</button>
+            <button onclick="action('bet')">Bet</button>
+            <button onclick="action('fold')">Fold</button>
+            <button onclick="newGame()">Iniciar Novo Jogo</button>
+        </div>
+    </div>
+
+    <script>
+        let gameState = 'waiting'; // 'waiting', 'preflop', 'flop', 'turn', 'river', 'showdown'
+        let playerMoney = 1000;
+        let pot = 0;
+
+        function newGame() {
+            gameState = 'preflop';
+            pot = 0;
+            updateMessage("Novo jogo iniciado. Suas cartas foram distribuídas.");
+        }
+
+        function action(actionType) {
+            if (gameState === 'waiting') {
+                updateMessage("Por favor, inicie um novo jogo.");
+                return;
+            }
+
+            switch(actionType) {
+                case 'check':
+                    updateMessage("Você deu check.");
+                    break;
+                case 'call':
+                    updateMessage("Você deu call.");
+                    break;
+                case 'bet':
+                    if (playerMoney >= 10) {
+                        playerMoney -= 10;
+                        pot += 10;
+                        updateMessage("Você apostou 10. Pot: " + pot);
+                    } else {
+                        updateMessage("Você não tem dinheiro suficiente para apostar.");
+                    }
+                    break;
+                case 'fold':
+                    updateMessage("Você desistiu. O jogo acabou.");
+                    gameState = 'waiting';
+                    break;
+            }
+
+            progressGame();
+        }
+
+        function progressGame() {
+            switch(gameState) {
+                case 'preflop':
+                    gameState = 'flop';
+                    updateMessage("Flop revelado.");
+                    break;
+                case 'flop':
+                    gameState = 'turn';
+                    updateMessage("Turn revelado.");
+                    break;
+                case 'turn':
+                    gameState = 'river';
+                    updateMessage("River revelado.");
+                    break;
+                case 'river':
+                    gameState = 'showdown';
+                    updateMessage("Showdown! O jogo acabou.");
+                    break;
+                case 'showdown':
+                    gameState = 'waiting';
+                    updateMessage("O jogo acabou. Inicie um novo jogo.");
+                    break;
+            }
+        }
+
+        function updateMessage(msg) {
+            document.getElementById('message').textContent = msg;
+        }
+
+        updateMessage("Bem-vindo ao Poker Texas Hold'em Avançado. Inicie um novo jogo.");
+    </script>
+</body>
+</html>
