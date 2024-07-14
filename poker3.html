@@ -45,6 +45,10 @@
         background-size: cover; /* Garante que a imagem cubra todo o espaço */
         border-radius: 5px; /* Bordas arredondadas */
 }
+        .card-vertical {
+            display: block;
+            margin: 5px 0;
+        }
         .red {
             color: #e74c3c;
         }
@@ -170,7 +174,7 @@
         ${player.folded ? ' (Desistiu)' : ''}
         ${index === currentPlayerIndex ? ' (Jogando)' : ''}
         <br>
-        Mão: ${player.isHuman && !player.folded ? player.hand.map(formatCard).join('') : '<div class="card-back"></div>'.repeat(2)}
+        Mão: ${player.isHuman && !player.folded ? player.hand.map(formatCard).join('') : '<div class="card-back card-vertical"></div><div class="card-back card-vertical"></div>'}
         <br>
         Aposta atual: ${player.bet}
     </div>
