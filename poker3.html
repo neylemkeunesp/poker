@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poker Texas Hold'em Avançado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        #game {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .card {
+            display: inline-block;
+            width: 40px;
+            height: 60px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            margin: 2px;
+            text-align: center;
+            line-height: 60px;
+            font-size: 20px;
+            background-color: #fff;
+            color: #000;
+        }
+        .card-back {
+        width: 50px; /* Largura da carta */
+        height: 70px; /* Altura da carta */
+        background-color: #007bff; /* Cor de fundo */
+        background-image: url('card-back.png'); /* Imagem de fundo */
+        background-size: cover; /* Garante que a imagem cubra todo o espaço */
+        border-radius: 5px; /* Bordas arredondadas */
+}
+        .red {
+            color: #e74c3c;
+        }
+        .player-area {
+            background-color: #ecf0f1;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .current-player {
+            background-color: #3498db;
+            color: #fff;
+        }
+        .folded-player {
+            background-color: #95a5a6;
+            color: #fff;
+        }
+        button {
+            background-color: #2ecc71;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        input[type="number"] {
+            width: 60px;
+            padding: 5px;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div id="game">
+        <h1>Poker Texas Hold'em Avançado</h1>
+        <div id="community-cards"></div>
+        <div id="players"></div>
+        <div id="pot"></div>
+        <div id="betting-round"></div>
+        <div id="betting-actions">
+            <button id="check">Check</button>
+            <button id="call">Call</button>
+            <button id="bet">Bet</button>
+            <input type="number" id="bet-amount" min="1" value="10">
+            <button id="fold">Fold</button>
+        </div>
+        <button id="deal">Iniciar Novo Jogo</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const suits = ['♠', '♥', '♦', '♣'];
+        const cardValues = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+        let deck = [];
+        let communityCards = [];
+        let players = [];
+        let currentPlayerIndex = 0;
+        let pot = 0;
+        let currentBet = 0;
+        let currentBettingRound = 0;
+
+        function createDeck() {
+            deck = [];
+            for (let suit of suits) {
+                for (let value of cardValues) {
+                    deck.push(value + suit);
+                }
+            }
+        }
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function dealCards() {
+            createDeck();
+            shuffle(deck);
+
+            players = [
+                { name: "Você", hand: [], chips: 1000, bet: 0, folded: false, isHuman: true },
+                { name: "Computador 1", hand: [], chips: 1000, bet: 0, folded: false, isHuman: false },
+                { name: "Computador 2", hand: [], chips: 1000, bet: 0, folded: false, isHuman: false },
+                { name: "Computador 3", hand: [], chips: 1000, bet: 0, folded: false, isHuman: false }
+            ];
+
+            for (let player of players) {
+                player.hand = [deck.pop(), deck.pop()];
+            }
+
+            communityCards = deck.slice(0, 5);
+            deck = deck.slice(5);
+
+            pot = 0;
+            currentBet = 0;
+            currentBettingRound = 0;
+            currentPlayerIndex = 0;
+
+            updateUI();
+            startBettingRound();
+        }
+
+        function updateUI() {
+            document.getElementById('community-cards').innerHTML = 'Cartas comunitárias: ' + 
+                (currentBettingRound > 0 ? communityCards.slice(0, 3).map(formatCard).join('') : '<div class="card-back"></div>') +
+                (currentBettingRound > 1 ? formatCard(communityCards[3]) : '') +
+                (currentBettingRound > 2 ? formatCard(communityCards[4]) : '');
+
+            document.getElementById('players').innerHTML = players.map((player, index) => `
+    <div class="player-area ${index === currentPlayerIndex ? 'current-player' : ''} ${player.folded ? 'folded-player' : ''}">
+        <strong>${player.name}</strong> (${player.chips} fichas)
+        ${player.folded ? ' (Desistiu)' : ''}
+        ${index === currentPlayerIndex ? ' (Jogando)' : ''}
+        <br>
+        Mão: ${player.isHuman && !player.folded ? player.hand.map(formatCard).join('') : '<div class="card-back"></div>'}
+        <br>
+        Aposta atual: ${player.bet}
+    </div>
+`).join(''); 
+
+            document.getElementById('pot').innerHTML = `Pote: ${pot}`;
+            document.getElementById('betting-round').innerHTML = `Rodada de apostas: ${['Pré-flop', 'Flop', 'Turn', 'River'][currentBettingRound]}`;
+
+            const currentPlayer = players[currentPlayerIndex];
+            const canCheck = currentPlayer.bet === currentBet;
+            document.getElementById('check').disabled = !canCheck || !currentPlayer.isHuman;
+            document.getElementById('call').disabled = canCheck || !currentPlayer.isHuman;
+            document.getElementById('bet').disabled = !currentPlayer.isHuman;
+            document.getElementById('bet-amount').disabled = !currentPlayer.isHuman;
+            document.getElementById('fold').disabled = !currentPlayer.isHuman;
+        }
+
+        function formatCard(card) {
+            const isRed = card.includes('♥') || card.includes('♦');
+            return `<div class="card ${isRed ? 'red' : ''}">${card}</div>`;
+        }
+
+        function startBettingRound() {
+            currentPlayerIndex = 0;
+            for (let player of players) {
+                player.bet = 0;
+            }
+            currentBet = 0;
+            updateUI();
+            if (!players[currentPlayerIndex].isHuman) {
+                setTimeout(computerAction, 1000);
+            }
+        }
+
+        function nextPlayer() {
+            do {
+                currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+            } while (players[currentPlayerIndex].folded);
+
+            if (checkRoundEnd()) {
+                if (currentBettingRound < 3) {
+                    currentBettingRound++;
+                    startBettingRound();
+                } else {
+                    showdown();
+                }
+            } else if (!players[currentPlayerIndex].isHuman) {
+                setTimeout(computerAction, 1000);
+            }
+            updateUI();
+        }
+
+        function checkRoundEnd() {
+            const activePlayers = players.filter(p => !p.folded);
+            const allEqualBets = activePlayers.every(p => p.bet === currentBet);
+            return allEqualBets && activePlayers[activePlayers.length - 1].bet === currentBet;
+        }
+
+        function placeBet(amount) {
+            const player = players[currentPlayerIndex];
+            const actualBet = Math.min(amount, player.chips);
+            player.chips -= actualBet;
+            player.bet += actualBet;
+            pot += actualBet;
+            currentBet = Math.max(currentBet, player.bet);
+            nextPlayer();
+        }
+
+        function evaluateHand(hand, communityCards) {
+            const allCards = [...hand, ...communityCards];
+            
+            const valueCounts = {};
+            for (let card of allCards) {
+                const value = card.slice(0, -1);
+                valueCounts[value] = (valueCounts[value] || 0) + 1;
+            }
+
+            const suitCounts = {};
+            for (let card of allCards) {
+                const suit = card.slice(-1);
+                suitCounts[suit] = (suitCounts[suit] || 0) + 1;
+            }
+            const hasFlush = Object.values(suitCounts).some(count => count >= 5);
+
+            const uniqueValues = [...new Set(allCards.map(card => cardValues.indexOf(card.slice(0, -1))))];
+            uniqueValues.sort((a, b) => a - b);
+            let hasStrait = false;
+            for (let i = 0; i < uniqueValues.length - 4; i++) {
+                if (uniqueValues[i+4] - uniqueValues[i] === 4) {
+                    hasStrait = true;
+                    break;
+                }
+            }
+
+            if (hasFlush && hasStrait) return 8; // Straight Flush
+            if (Object.values(valueCounts).includes(4)) return 7; // Four of a Kind
+            if (Object.values(valueCounts).includes(3) && Object.values(valueCounts).includes(2)) return 6; // Full House
+            if (hasFlush) return 5; // Flush
+            if (hasStrait) return 4; // Straight
+            if (Object.values(valueCounts).includes(3)) return 3; // Three of a Kind
+            if (Object.values(valueCounts).filter(count => count === 2).length === 2) return 2; // Two Pair
+            if (Object.values(valueCounts).includes(2)) return 1; // One Pair
+            return 0; // High Card
+        }
+
+        function computerAction() {
+            const player = players[currentPlayerIndex];
+            const handStrength = evaluateHand(player.hand, communityCards.slice(0, 3 + currentBettingRound));
+            const random = Math.random();
+
+            let raiseChance, callChance;
+
+            if (handStrength >= 5) {
+                raiseChance = 0.7;
+                callChance = 0.25;
+            } else if (handStrength >= 3) {
+                raiseChance = 0.4;
+                callChance = 0.4;
+            } else if (handStrength >= 1) {
+                raiseChance = 0.2;
+                callChance = 0.5;
+            } else {
+                raiseChance = 0.1;
+                callChance = 0.3;
+            }
+
+            if (random < raiseChance) {
+                const raiseAmount = Math.floor((handStrength + 1) * 10);
+                placeBet(currentBet - player.bet + raiseAmount);
+            } else if (random < raiseChance + callChance) {
+                placeBet(currentBet - player.bet);
+            } else {
+                player.folded = true;
+                nextPlayer();
+            }
+        }
+
+        function showdown() {
+            const activePlayers = players.filter(p => !p.folded);
+            let winner = activePlayers[0];
+            let winnerStrength = evaluateHand(winner.hand, communityCards);
+
+            for (let i = 1; i < activePlayers.length; i++) {
+                const playerStrength = evaluateHand(activePlayers[i].hand, communityCards);
+                if (playerStrength > winnerStrength) {
+                    winner = activePlayers[i];
+                    winnerStrength = playerStrength;
+                }
+            }
+
+            winner.chips += pot;
+
+            let resultMessage = `Resultado do showdown:<br>${winner.name} ganhou ${pot} fichas com `;
+            switch(winnerStrength) {
+                case 8: resultMessage += "um Straight Flush!"; break;
+                case 7: resultMessage += "uma Quadra!"; break;
+                case 6: resultMessage += "um Full House!"; break;
+                case 5: resultMessage += "um Flush!"; break;
+                case 4: resultMessage += "um Straight!"; break;
+                case 3: resultMessage += "uma Trinca!"; break;
+                case 2: resultMessage += "Dois Pares!"; break;
+                case 1: resultMessage += "um Par!"; break;
+                case 0: resultMessage += "Carta Alta!"; break;
+            }
+            document.getElementById('result').innerHTML = resultMessage;
+            
+            updateUI();
+        }
+
+        document.getElementById('deal').addEventListener('click', dealCards);
+        document.getElementById('check').addEventListener('click', () => nextPlayer());
+        document.getElementById('call').addEventListener('click', () => placeBet(currentBet - players[currentPlayerIndex].bet));
+        document.getElementById('bet').addEventListener('click', () => {
+            const betAmount = parseInt(document.getElementById('bet-amount').value);
+            placeBet(currentBet - players[currentPlayerIndex].bet + betAmount);
+        });
+        document.getElementById('fold').addEventListener('click', () => {
+            players[currentPlayerIndex].folded = true;
+            nextPlayer();
+        });
+
+        dealCards();
+    </script>
+</body>
+</html>
