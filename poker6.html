@@ -139,8 +139,12 @@
                 { name: "Computador 3", hand: [], chips: 1000, bet: 0, folded: false, isHuman: false }
             ];
 
-            for (let player of players) {
-                player.hand = ['back', 'back'];
+            for (let i = 0; i < players.length; i++) {
+                if (players[i].isHuman) {
+                    players[i].hand = [deck.pop(), deck.pop()];
+                } else {
+                    players[i].hand = ['back', 'back'];
+                }
             }
 
             communityCards = deck.slice(0, 5);
