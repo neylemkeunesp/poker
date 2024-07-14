@@ -154,14 +154,8 @@
             currentBettingRound = 0;
             currentPlayerIndex = 1; // Start with the player after the dealer
 
-            updateUI();
-            if (!players[currentPlayerIndex].isHuman) {
-                setTimeout(computerAction, 1000);
-            }
-            if (!players[currentPlayerIndex].isHuman) {
-                setTimeout(computerAction, 1000);
-            }
             startBettingRound();
+            updateUI();
         }
 
         function updateUI() {
