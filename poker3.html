@@ -160,9 +160,9 @@
 
         function updateUI() {
             document.getElementById('community-cards').innerHTML = 'Cartas comunitárias: ' + 
-                (currentBettingRound > 0 ? communityCards.slice(0, 3).map(formatCard).join('') : '<div class="card-back"></div>'.repeat(3)) +
-                (currentBettingRound > 1 ? formatCard(communityCards[3]) : '<div class="card-back"></div>') +
-                (currentBettingRound > 2 ? formatCard(communityCards[4]) : '<div class="card-back"></div>');
+                (currentBettingRound > 0 ? communityCards.slice(0, 3).map(formatCard).join('') : '<div class="card-back" style="display: inline-block;"></div>'.repeat(3)) +
+                (currentBettingRound > 1 ? '<div class="card-back" style="display: inline-block;"></div>' : formatCard(communityCards[3])) +
+                (currentBettingRound > 2 ? '<div class="card-back" style="display: inline-block;"></div>' : formatCard(communityCards[4]));
 
             document.getElementById('players').innerHTML = players.map((player, index) => `
     <div class="player-area ${index === currentPlayerIndex ? 'current-player' : ''} ${player.folded ? 'folded-player' : ''}">
