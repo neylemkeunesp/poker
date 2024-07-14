@@ -160,9 +160,9 @@
 
         function updateUI() {
             document.getElementById('community-cards').innerHTML = 'Cartas comunitárias: ' + 
-                (currentBettingRound > 0 ? communityCards.slice(0, 3).map(formatCard).join('') : '<div class="card-back"></div>') +
-                (currentBettingRound > 1 ? formatCard(communityCards[3]) : '') +
-                (currentBettingRound > 2 ? formatCard(communityCards[4]) : '');
+                (currentBettingRound > 0 ? communityCards.slice(0, 3).map(formatCard).join('') : '<div class="card-back"></div>'.repeat(3)) +
+                (currentBettingRound > 1 ? formatCard(communityCards[3]) : '<div class="card-back"></div>') +
+                (currentBettingRound > 2 ? formatCard(communityCards[4]) : '<div class="card-back"></div>');
 
             document.getElementById('players').innerHTML = players.map((player, index) => `
     <div class="player-area ${index === currentPlayerIndex ? 'current-player' : ''} ${player.folded ? 'folded-player' : ''}">
@@ -226,7 +226,7 @@
         function checkRoundEnd() {
             const activePlayers = players.filter(p => !p.folded);
             const allEqualBets = activePlayers.every(p => p.bet === currentBet);
-            return allEqualBets && activePlayers[activePlayers.length - 1].bet === currentBet;
+            return allEqualBets && activePlayers.every(p => p.bet === currentBet);
         }
 
         function placeBet(amount) {
@@ -310,21 +310,18 @@
 
         function showdown() {
             const activePlayers = players.filter(p => !p.folded);
-            let winner = activePlayers[0];
-            let winnerStrength = evaluateHand(winner.hand, communityCards);
+            const handStrengths = activePlayers.map(player => ({
+                player,
+                strength: evaluateHand(player.hand, communityCards)
+            }));
 
-            for (let i = 1; i < activePlayers.length; i++) {
-                const playerStrength = evaluateHand(activePlayers[i].hand, communityCards);
-                if (playerStrength > winnerStrength) {
-                    winner = activePlayers[i];
-                    winnerStrength = playerStrength;
-                }
-            }
+            handStrengths.sort((a, b) => b.strength - a.strength);
 
+            const winner = handStrengths[0].player;
             winner.chips += pot;
 
             let resultMessage = `Resultado do showdown:<br>${winner.name} ganhou ${pot} fichas com `;
-            switch(winnerStrength) {
+            switch(handStrengths[0].strength) {
                 case 8: resultMessage += "um Straight Flush!"; break;
                 case 7: resultMessage += "uma Quadra!"; break;
                 case 6: resultMessage += "um Full House!"; break;
