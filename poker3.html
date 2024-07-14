@@ -12,6 +12,10 @@
             line-height: 1.6;
             padding: 20px;
         }
+        updateUI();
+        if (!players[currentPlayerIndex].isHuman) {
+            setTimeout(computerAction, 1000);
+        }
         #game {
             max-width: 800px;
             margin: 0 auto;
@@ -163,6 +167,26 @@
                 (currentBettingRound > 0 ? communityCards.slice(0, 3).map(formatCard).join('') : '<div class="card-back" style="display: inline-block;"></div>'.repeat(3)) +
                 (currentBettingRound > 1 ? formatCard(communityCards[3]) : '<div class="card-back" style="display: inline-block;"></div>') +
                 (currentBettingRound > 2 ? formatCard(communityCards[4]) : '<div class="card-back" style="display: inline-block;"></div>');
+            document.getElementById('players').innerHTML = players.map((player, index) => `
+                <div class="player-area ${index === currentPlayerIndex ? 'current-player' : ''} ${player.folded ? 'folded-player' : ''}">
+                    <strong>${player.name}</strong> (${player.chips} fichas)
+                    ${player.folded ? ' (Desistiu)' : ''}
+                    ${index === currentPlayerIndex ? ' (Jogando)' : ''}
+                    <br>
+                    Mão: ${!player.folded ? player.hand.map(formatCard).join('') : '<div class="card-back" style="display: inline-block;"></div><div class="card-back" style="display: inline-block;"></div>'}
+                    <br>
+                    Aposta atual: ${player.bet}
+                </div>
+            `).join(''); 
+            document.getElementById('pot').innerHTML = `Pote: ${pot}`;
+            document.getElementById('betting-round').innerHTML = `Rodada de apostas: ${['Pré-flop', 'Flop', 'Turn', 'River'][currentBettingRound]}`;
+            const currentPlayer = players[currentPlayerIndex];
+            const canCheck = currentPlayer.bet === currentBet;
+            document.getElementById('check').disabled = !canCheck || !currentPlayer.isHuman;
+            document.getElementById('call').disabled = canCheck || !currentPlayer.isHuman;
+            document.getElementById('bet').disabled = !currentPlayer.isHuman;
+            document.getElementById('bet-amount').disabled = !currentPlayer.isHuman;
+            document.getElementById('fold').disabled = !currentPlayer.isHuman;
 
             document.getElementById('players').innerHTML = players.map((player, index) => `
     <div class="player-area ${index === currentPlayerIndex ? 'current-player' : ''} ${player.folded ? 'folded-player' : ''}">
@@ -199,10 +223,9 @@
                 player.bet = 0;
             }
             currentBet = 0;
+            updateUI();
             if (!players[currentPlayerIndex].isHuman) {
                 setTimeout(computerAction, 1000);
-            } else {
-                updateUI();
             }
         }
 
