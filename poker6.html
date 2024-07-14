@@ -201,7 +201,7 @@
         function nextPlayer() {
             do {
                 currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-            } while (players[currentPlayerIndex].folded);
+            } while (players[currentPlayerIndex].folded && players.some(p => !p.folded));
 
             if (checkRoundEnd()) {
                 if (currentBettingRound < 3) {
