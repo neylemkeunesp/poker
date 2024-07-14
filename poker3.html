@@ -352,12 +352,16 @@
         }
 
         document.getElementById('deal').addEventListener('click', dealCards);
-        // Disable human player actions for simulation
-        document.getElementById('check').disabled = true;
-        document.getElementById('call').disabled = true;
-        document.getElementById('bet').disabled = true;
-        document.getElementById('bet-amount').disabled = true;
-        document.getElementById('fold').disabled = true;
+        document.getElementById('check').addEventListener('click', () => nextPlayer());
+        document.getElementById('call').addEventListener('click', () => placeBet(currentBet - players[currentPlayerIndex].bet));
+        document.getElementById('bet').addEventListener('click', () => {
+            const betAmount = parseInt(document.getElementById('bet-amount').value);
+            placeBet(currentBet - players[currentPlayerIndex].bet + betAmount);
+        });
+        document.getElementById('fold').addEventListener('click', () => {
+            players[currentPlayerIndex].folded = true;
+            nextPlayer();
+        });
 
     </script>
 </body>
