@@ -260,15 +260,15 @@
                 }
             }
 
-            if (hasFlush && hasStrait) return 8; // Straight Flush
-            if (Object.values(valueCounts).includes(4)) return 7; // Four of a Kind
-            if (Object.values(valueCounts).includes(3) && Object.values(valueCounts).includes(2)) return 6; // Full House
-            if (hasFlush) return 5; // Flush
-            if (hasStrait) return 4; // Straight
-            if (Object.values(valueCounts).includes(3)) return 3; // Three of a Kind
-            if (Object.values(valueCounts).filter(count => count === 2).length === 2) return 2; // Two Pair
-            if (Object.values(valueCounts).includes(2)) return 1; // One Pair
-            return 0; // High Card
+            if (hasFlush && hasStrait) return { strength: 8, hand: getBestHand(allCards, valueCounts, suitCounts, 'Straight Flush') };
+            if (Object.values(valueCounts).includes(4)) return { strength: 7, hand: getBestHand(allCards, valueCounts, suitCounts, 'Four of a Kind') };
+            if (Object.values(valueCounts).includes(3) && Object.values(valueCounts).includes(2)) return { strength: 6, hand: getBestHand(allCards, valueCounts, suitCounts, 'Full House') };
+            if (hasFlush) return { strength: 5, hand: getBestHand(allCards, valueCounts, suitCounts, 'Flush') };
+            if (hasStrait) return { strength: 4, hand: getBestHand(allCards, valueCounts, suitCounts, 'Straight') };
+            if (Object.values(valueCounts).includes(3)) return { strength: 3, hand: getBestHand(allCards, valueCounts, suitCounts, 'Three of a Kind') };
+            if (Object.values(valueCounts).filter(count => count === 2).length === 2) return { strength: 2, hand: getBestHand(allCards, valueCounts, suitCounts, 'Two Pair') };
+            if (Object.values(valueCounts).includes(2)) return { strength: 1, hand: getBestHand(allCards, valueCounts, suitCounts, 'One Pair') };
+            return { strength: 0, hand: getBestHand(allCards, valueCounts, suitCounts, 'High Card') };
         }
 
         function computerAction() {
@@ -307,7 +307,7 @@
             const activePlayers = players.filter(p => !p.folded);
             const handStrengths = activePlayers.map(player => ({
                 player,
-                strength: evaluateHand(player.hand, communityCards)
+                ...evaluateHand(player.hand, communityCards)
             }));
 
             handStrengths.sort((a, b) => b.strength - a.strength);
@@ -316,7 +316,7 @@
             winner.chips += pot;
 
             let resultMessage = `Resultado do showdown:<br>${winner.name} ganhou ${pot} fichas com `;
-            resultMessage += handStrengths.map(hs => `<br>${hs.player.name} tinha ${hs.player.hand.map(formatCard).join('')}`).join('');
+            resultMessage += handStrengths.map(hs => `<br>${hs.player.name} tinha ${hs.player.hand.map(formatCard).join('')} (Melhor mão: ${hs.hand.map(formatCard).join('')})`).join('');
             switch(handStrengths[0].strength) {
                 case 8: resultMessage += "um Straight Flush!"; break;
                 case 7: resultMessage += "uma Quadra!"; break;
@@ -351,3 +351,8 @@
     </script>
 </body>
 </html>
+        function getBestHand(allCards, valueCounts, suitCounts, handType) {
+            // Implement logic to determine the best five-card hand based on the hand type
+            // This is a placeholder implementation and should be replaced with actual logic
+            return allCards.slice(0, 5);
+        }
