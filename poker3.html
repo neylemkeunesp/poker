@@ -184,6 +184,8 @@
             document.getElementById('fold').disabled = !currentPlayer.isHuman;
 
 
+        }
+        
         function formatCard(card) {
             const isRed = card.includes('♥') || card.includes('♦');
             return `<div class="card ${isRed ? 'red' : ''}">${card}</div>`;
