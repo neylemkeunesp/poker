@@ -118,7 +118,9 @@
                 for (let value of cardValues) {
                     deck.push(value + suit);
                 }
+                }
             }
+            updateUI();
         }
 
         function shuffle(array) {
@@ -214,7 +216,9 @@
                 } else {
                     showdown();
                 }
-            } else if (!players[currentPlayerIndex].isHuman) {
+            } else {
+                updateUI();
+                if (!players[currentPlayerIndex].isHuman) {
                 setTimeout(computerAction, 1000);
             }
             updateUI();
