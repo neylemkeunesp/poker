@@ -140,7 +140,7 @@
             ];
 
             for (let player of players) {
-                player.hand = [deck.pop(), deck.pop()];
+                player.hand = ['back', 'back'];
             }
 
             communityCards = deck.slice(0, 5);
@@ -155,17 +155,15 @@
         }
 
         function updateUI() {
-            document.getElementById('community-cards').innerHTML = 'Cartas comunitárias: ' + 
-                (currentBettingRound > 0 ? communityCards.slice(0, 3).map(formatCard).join('') : '<div class="card-back" style="display: inline-block;"></div>'.repeat(3)) +
-                (currentBettingRound > 1 ? formatCard(communityCards[3]) : '<div class="card-back" style="display: inline-block;"></div>') +
-                (currentBettingRound > 2 ? formatCard(communityCards[4]) : '<div class="card-back" style="display: inline-block;"></div>');
+            document.getElementById('community-cards').innerHTML = 'Cartas comunitárias: ' +
+                '<div class="card-back" style="display: inline-block;"></div>'.repeat(5);
             document.getElementById('players').innerHTML = players.map((player, index) => `
                 <div class="player-area ${index === currentPlayerIndex ? 'current-player' : ''} ${player.folded ? 'folded-player' : ''}">
                     <strong>${player.name}</strong> (${player.chips} fichas)
                     ${player.folded ? ' (Desistiu)' : ''}
                     ${index === currentPlayerIndex ? ' (Jogando)' : ''}
                     <br>
-                    Mão: ${!player.folded ? player.hand.map(formatCard).join('') : '<div class="card-back" style="display: inline-block;"></div><div class="card-back" style="display: inline-block;"></div>'}
+                    Mão: ${player.hand.map(formatCard).join('')}
                     <br>
                     Aposta atual: ${player.bet}
                 </div>
@@ -182,8 +180,12 @@
         }
 
         function formatCard(card) {
-            const isRed = card.includes('♥') || card.includes('♦');
-            return `<div class="card ${isRed ? 'red' : ''}">${card}</div>`;
+            if (card === 'back') {
+                return '<div class="card-back" style="display: inline-block;"></div>';
+            } else {
+                const isRed = card.includes('♥') || card.includes('♦');
+                return `<div class="card ${isRed ? 'red' : ''}">${card}</div>`;
+            }
         }
 
         function startBettingRound() {
