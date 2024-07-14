@@ -342,8 +342,13 @@
             }
             document.getElementById('result').innerHTML = resultMessage;
             updateUI();
+            logGameResult(resultMessage);
             
             updateUI();
+        }
+
+        function logGameResult(resultMessage) {
+            console.log(resultMessage.replace(/<br>/g, '\n').replace(/<[^>]+>/g, ''));
         }
 
         document.getElementById('deal').addEventListener('click', dealCards);
