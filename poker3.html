@@ -24,27 +24,22 @@
             color: #2c3e50;
             text-align: center;
         }
-        .card {
+        .card, .card-back {
             display: inline-block;
-            width: 40px;
-            height: 60px;
+            width: 50px; /* Largura da carta */
+            height: 70px; /* Altura da carta */
             border: 1px solid #333;
             border-radius: 5px;
             margin: 2px;
             text-align: center;
-            line-height: 60px;
+            line-height: 70px;
             font-size: 20px;
             background-color: #fff;
             color: #000;
+            background-color: #007bff; /* Cor de fundo */
+            background-image: url('card-back.png'); /* Imagem de fundo */
+            background-size: cover; /* Garante que a imagem cubra todo o espaço */
         }
-        .card-back {
-        width: 50px; /* Largura da carta */
-        height: 70px; /* Altura da carta */
-        background-color: #007bff; /* Cor de fundo */
-        background-image: url('card-back.png'); /* Imagem de fundo */
-        background-size: cover; /* Garante que a imagem cubra todo o espaço */
-        border-radius: 5px; /* Bordas arredondadas */
-}
         .red {
             color: #e74c3c;
         }
