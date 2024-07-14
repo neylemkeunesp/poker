@@ -151,7 +151,16 @@
             currentBettingRound = 0;
             currentPlayerIndex = 1; // Start with the player after the dealer
 
-            startBettingRound();
+            // Place compulsory bet of 10 coins for each player
+            for (let player of players) {
+                const initialBet = 10;
+                player.chips -= initialBet;
+                player.bet = initialBet;
+                pot += initialBet;
+            }
+            currentBet = 10;
+            updateUI();
+            setTimeout(startBettingRound, 1000); // Delay to show initial bets
         }
 
         function updateUI() {
