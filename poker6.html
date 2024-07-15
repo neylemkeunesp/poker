@@ -353,7 +353,7 @@
             winner.chips += pot;
 
             let resultMessage = `Resultado do showdown:<br>${winner.name} ganhou ${pot} fichas com `;
-            resultMessage += handStrengths.map(hs => `<br>${hs.player.name} tinha (Melhor mão: ${hs.hand.map(formatCard).join('')})`).join('');
+            resultMessage += handStrengths.map(hs => `<br>${hs.player.name} tinha ${hs.player.hand.map(formatCard).join('')} (Melhor mão: ${hs.hand.map(formatCard).join('')})`).join('');
             switch(handStrengths[0].strength) {
                 case 8: resultMessage += "um Straight Flush!"; break;
                 case 7: resultMessage += "uma Quadra!"; break;
