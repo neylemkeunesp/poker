@@ -226,6 +226,8 @@
             document.getElementById('result').innerHTML = `${winner.name} ganhou o jogo com ${winner.chips} fichas restantes!`;
             updateUI();
         }
+        
+        function nextPlayer() {
             do {
                 currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
             } while (players[currentPlayerIndex].folded && players.some(p => !p.folded));
