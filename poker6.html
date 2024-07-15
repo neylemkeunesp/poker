@@ -155,7 +155,7 @@
             document.getElementById('community-cards').innerHTML = 'Cartas comunitárias: ' +
                 communityCards.slice(0, 3 + currentBettingRound).map(formatCard).join('');
             document.getElementById('players').innerHTML = players.map((player, index) => {
-                const playerChips = player.chips !== undefined && player.chips >= 0 ? player.chips : 0;
+                const playerChips = player.chips !== undefined && !isNaN(player.chips) && player.chips >= 0 ? player.chips : 0;
                 return `
                     <div class="player-area ${index === currentPlayerIndex ? 'current-player' : ''} ${player.folded ? 'folded-player' : ''}">
                         <strong>${player.name}</strong> (${playerChips} fichas)
@@ -257,8 +257,8 @@
 
         function placeBet(amount) {
             const player = players[currentPlayerIndex];
-            const actualBet = Math.min(amount, player.chips || 0);
-            player.chips = Math.max(0, (player.chips || 0) - actualBet);
+            const actualBet = Math.min(amount, player.chips !== undefined ? player.chips : 0);
+            player.chips = Math.max(0, (player.chips !== undefined ? player.chips : 0) - actualBet);
             player.bet += actualBet;
             pot += actualBet;
             currentBet = Math.max(currentBet, player.bet);
