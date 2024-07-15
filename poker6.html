@@ -139,14 +139,6 @@
                 { name: "Computador 3", hand: [], chips: 1000, bet: 0, folded: false, isHuman: false }
             ];
 
-            for (let i = 0; i < players.length; i++) {
-                if (players[i].isHuman) {
-                    players[i].hand = [deck.pop(), deck.pop()];
-                } else {
-                    players[i].hand = ['back', 'back'];
-                }
-            }
-
             communityCards = deck.slice(0, 5);
             deck = deck.slice(5);
 
@@ -155,16 +147,8 @@
             currentBettingRound = 0;
             currentPlayerIndex = 1; // Start with the player after the dealer
 
-            // Place compulsory bet of 10 coins for each player
-            for (let player of players) {
-                const initialBet = 10;
-                player.chips -= initialBet;
-                player.bet = initialBet;
-                pot += initialBet;
-            }
-            currentBet = 10;
             updateUI();
-            setTimeout(startBettingRound, 1000); // Delay to show initial bets
+            setTimeout(startInitialBettingRound, 1000); // Delay to show initial bets
         }
 
         function updateUI() {
@@ -201,7 +185,22 @@
             }
         }
 
+        function startInitialBettingRound() {
+            currentPlayerIndex = 0; // Start with the human player
+            updateUI();
+            if (!players[currentPlayerIndex].isHuman) {
+                setTimeout(computerAction, 1000);
+            }
+        }
+
         function startBettingRound() {
+            for (let i = 0; i < players.length; i++) {
+                if (players[i].isHuman) {
+                    players[i].hand = [deck.pop(), deck.pop()];
+                } else {
+                    players[i].hand = ['back', 'back'];
+                }
+            }
             currentPlayerIndex = (currentPlayerIndex + 1) % players.length; // Move to the next player
             for (let player of players) {
                 player.bet = 0;
