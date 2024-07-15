@@ -215,12 +215,24 @@
             }
         }
 
-        function nextPlayer() {
+        function checkSinglePlayerLeft() {
+            const activePlayers = players.filter(p => !p.folded);
+            return activePlayers.length === 1;
+        }
+
+        function endGame() {
+            const winner = players.find(p => !p.folded);
+            winner.chips += pot;
+            document.getElementById('result').innerHTML = `${winner.name} ganhou o jogo com ${winner.chips} fichas restantes!`;
+            updateUI();
+        }
             do {
                 currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
             } while (players[currentPlayerIndex].folded && players.some(p => !p.folded));
 
-            if (checkRoundEnd()) {
+            if (checkSinglePlayerLeft()) {
+                endGame();
+            } else if (checkRoundEnd()) {
                 if (currentBettingRound < 3) {
                     currentBettingRound++;
                     startBettingRound();
