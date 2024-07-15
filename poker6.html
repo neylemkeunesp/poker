@@ -346,6 +346,10 @@
             handStrengths.sort((a, b) => b.strength - a.strength);
 
             const winner = handStrengths[0].player;
+            if (!winner) {
+                console.error("No winner found. Check the handStrengths array:", handStrengths);
+                return;
+            }
             winner.chips += pot;
 
             let resultMessage = `Resultado do showdown:<br>${winner.name} ganhou ${pot} fichas com `;
