@@ -164,7 +164,7 @@
                         <br>
                         Mão: ${player.hand.map(card => card === 'back' ? formatCard(card) : formatCard(card)).join('')}
                         <br>
-                        Aposta atual: ${player.bet}
+                        Aposta atual: ${player.bet || 0}
                     </div>
                 `;
             }).join(''); 
