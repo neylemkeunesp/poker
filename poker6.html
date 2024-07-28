@@ -87,7 +87,7 @@
     <div id="game">
         <h1>Poker Texas Hold'em Avançado</h1>
         <div id="community-cards"></div>
-        <div id="players"></div>
+        <div id="players" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;"></div>
         <div id="pot"></div>
         <div id="betting-round"></div>
         <div id="betting-actions">
@@ -156,7 +156,7 @@
             const communityCardsToShow = currentBettingRound > 0 ? communityCards.slice(0, 3 + currentBettingRound) : communityCards.map(() => 'back');
             document.getElementById('community-cards').innerHTML = 'Cartas comunitárias: ' +
                 communityCardsToShow.map(formatCard).join('');
-            document.getElementById('players').innerHTML = players.map((player, index) => {
+            const playerAreas = players.map((player, index) => {
                 const playerChips = player.chips !== undefined && !isNaN(player.chips) && player.chips >= 0 ? player.chips : 0;
                 return `
                     <div class="player-area ${index === currentPlayerIndex ? 'current-player' : ''} ${player.folded ? 'folded-player' : ''}">
@@ -169,7 +169,14 @@
                         Aposta atual: ${player.bet || 0}
                     </div>
                 `;
-            }).join(''); 
+            });
+
+            document.getElementById('players').innerHTML = `
+                <div>${playerAreas[0]}</div>
+                <div>${playerAreas[1]}</div>
+                <div>${playerAreas[2]}</div>
+                <div>${playerAreas[3]}</div>
+            `;
             document.getElementById('pot').innerHTML = `Pote: ${pot}`;
             document.getElementById('betting-round').innerHTML = `Rodada de apostas: ${['Pré-flop', 'Flop', 'Turn', 'River'][currentBettingRound]}`;
             const currentPlayer = players[currentPlayerIndex];
