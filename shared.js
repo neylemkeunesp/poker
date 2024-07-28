@@ -66,3 +66,52 @@ function startInitialBettingRound() {
         setTimeout(computerAction, 1000);
     }
 }
+function checkSinglePlayerLeft() {
+    const activePlayers = players.filter(p => !p.folded);
+    return activePlayers.length === 1;
+}
+
+function endGame() {
+    const winner = players.find(p => !p.folded);
+    winner.chips += pot;
+    document.getElementById('result').innerHTML = `${winner.name} ganhou o jogo com ${winner.chips} fichas restantes!`;
+    updateUI();
+}
+
+function nextPlayer() {
+    do {
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+    } while (players[currentPlayerIndex].folded && players.some(p => !p.folded));
+
+    if (checkSinglePlayerLeft()) {
+        endGame();
+    } else if (checkRoundEnd()) {
+        if (currentBettingRound < 3) {
+            currentBettingRound++;
+            startBettingRound();
+        } else {
+            showdown();
+        }
+    } else {
+        updateUI();
+        if (!players[currentPlayerIndex].isHuman) {
+            setTimeout(computerAction, 1000);
+        }
+    }
+}
+
+function checkRoundEnd() {
+    const activePlayers = players.filter(p => !p.folded);
+    const allEqualBets = activePlayers.every(p => p.bet === currentBet);
+    return allEqualBets;
+}
+
+function placeBet(amount) {
+    const player = players[currentPlayerIndex];
+    const actualBet = Math.min(amount, player.chips !== undefined ? player.chips : 0);
+    player.chips = Math.max(0, (player.chips !== undefined ? player.chips : 0) - actualBet);
+    player.bet += actualBet;
+    pot += actualBet;
+    currentBet = Math.max(currentBet, player.bet);
+    nextPlayer();
+}
