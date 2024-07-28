@@ -128,8 +128,6 @@
             }
 
             document.getElementById('simulate').addEventListener('click', simulateGame);
-        let players = [];
-        
         function startNewGame() {
             players.forEach(player => {
                 player.hand = [];
@@ -522,6 +520,32 @@
         }
 
         function simulateGame() {
+            dealCards();
+            setTimeout(() => {
+                function gameLoop() {
+                    if (!checkSinglePlayerLeft() && currentBettingRound < 4) {
+                        if (players[currentPlayerIndex].isHuman) {
+                            // Simulate human player actions
+                            if (Math.random() < 0.5) {
+                                document.getElementById('check').click();
+                            } else {
+                                document.getElementById('bet').click();
+                            }
+                        } else {
+                            computerAction();
+                        }
+                        setTimeout(gameLoop, 1000); // Continue the game loop
+                    } else {
+                        if (!checkSinglePlayerLeft()) {
+                            showdown();
+                        }
+                    }
+                }
+                gameLoop();
+            }, 1000);
+        }
+
+        document.getElementById('simulate').addEventListener('click', simulateGame);
             dealCards();
             setTimeout(() => {
                 while (!checkSinglePlayerLeft() && currentBettingRound < 4) {
