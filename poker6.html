@@ -278,7 +278,8 @@
 
         function endGame() {
             const winner = players.find(p => !p.folded);
-            winner.chips += pot;
+            } else {
+                winner.chips += pot;
             document.getElementById('result').innerHTML = `${winner.name} ganhou o jogo com ${winner.chips} fichas restantes!`;
             updateUI();
         }
@@ -400,8 +401,9 @@
 
             handStrengths.sort((a, b) => b.strength - a.strength);
 
-            const winner = handStrengths[0].player;
+            const winner = handStrengths.length > 0 ? handStrengths[0].player : null;
             if (!winner) {
+                console.error("No winner found. Check the handStrengths array:", handStrengths);
                 console.error("No winner found. Check the handStrengths array:", handStrengths);
                 return;
             }
