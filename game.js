@@ -1,30 +1,5 @@
 import { dealCards } from './shared.js';
 
-function simulateGame() {
-                dealCards();
-                setTimeout(() => {
-                    function gameLoop() {
-                        if (!checkSinglePlayerLeft() && currentBettingRound < 4) {
-                            if (players[currentPlayerIndex].isHuman) {
-                                // Simulate human player actions
-                                if (Math.random() < 0.5) {
-                                    document.getElementById('check').click();
-                                } else {
-                                    document.getElementById('bet').click();
-                                }
-                            } else {
-                                computerAction();
-                            }
-                            setTimeout(gameLoop, 1000); // Continue the game loop
-                        } else {
-                            if (!checkSinglePlayerLeft()) {
-                                showdown();
-                            }
-                        }
-                    }
-                    gameLoop();
-                }, 1000);
-            }
 
             document.getElementById('simulate').addEventListener('click', simulateGame);
             players.forEach(player => {
@@ -53,7 +28,7 @@ function simulateGame() {
         let currentBet = 0;
         let currentBettingRound = 0;
 
-import { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet, evaluateHand, computerAction, showdown } from './shared.js';
+import { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet, evaluateHand,  showdown } from './shared.js';
 
         function startBettingRound() {
             for (let i = 0; i < players.length; i++) {
@@ -70,7 +45,7 @@ import { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, ch
             currentBet = 0;
             updateUI();
             if (!players[currentPlayerIndex].isHuman) {
-                setTimeout(computerAction, 1000);
+                //setTimeout(computerAction, 1000);
             }
         }
 
