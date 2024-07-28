@@ -100,6 +100,30 @@
         <button id="deal">Iniciar Novo Jogo</button>
         <div id="result"></div>
         <button id="simulate">Nova Mão</button>
+        <script>
+            function simulateGame() {
+                dealCards();
+                setTimeout(() => {
+                    while (!checkSinglePlayerLeft() && currentBettingRound < 4) {
+                        if (players[currentPlayerIndex].isHuman) {
+                            // Simulate human player actions
+                            if (Math.random() < 0.5) {
+                                document.getElementById('check').click();
+                            } else {
+                                document.getElementById('bet').click();
+                            }
+                        } else {
+                            computerAction();
+                        }
+                    }
+                    if (!checkSinglePlayerLeft()) {
+                        showdown();
+                    }
+                }, 1000);
+            }
+
+            document.getElementById('simulate').addEventListener('click', simulateGame);
+        </script>
     </div>
 
     <script>
