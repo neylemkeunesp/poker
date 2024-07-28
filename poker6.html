@@ -344,13 +344,6 @@
         }
 
         function showdown() {
-            const activePlayers = players.filter(p => !p.folded);
-            const handStrengths = activePlayers.map(player => ({
-                player,
-                ...evaluateHand(player.hand, communityCards)
-            }));
-
-            handStrengths.sort((a, b) => b.strength - a.strength);
 
             const activePlayers = players.filter(p => !p.folded);
             const handStrengths = activePlayers.map(player => ({
