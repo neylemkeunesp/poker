@@ -352,6 +352,14 @@
 
             handStrengths.sort((a, b) => b.strength - a.strength);
 
+            const activePlayers = players.filter(p => !p.folded);
+            const handStrengths = activePlayers.map(player => ({
+                player,
+                ...evaluateHand(player.hand, communityCards)
+            }));
+
+            handStrengths.sort((a, b) => b.strength - a.strength);
+
             const winner = handStrengths[0].player;
             if (!winner) {
                 console.error("No winner found. Check the handStrengths array:", handStrengths);
