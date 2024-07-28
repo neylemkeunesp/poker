@@ -10,7 +10,7 @@ const suits = ['♠', '♥', '♦', '♣'];
         let currentBet = 0;
         let currentBettingRound = 0;
 
-import { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet } from './shared.js';
+import { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet, evaluateHand } from './shared.js';
 
         function startBettingRound() {
             for (let i = 0; i < players.length; i++) {
@@ -32,42 +32,6 @@ import { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, ch
         }
 
 
-        function evaluateHand(hand, communityCards) {
-            const allCards = [...hand, ...communityCards];
-            
-            const valueCounts = {};
-            for (let card of allCards) {
-                const value = card.slice(0, -1);
-                valueCounts[value] = (valueCounts[value] || 0) + 1;
-            }
-
-            const suitCounts = {};
-            for (let card of allCards) {
-                const suit = card.slice(-1);
-                suitCounts[suit] = (suitCounts[suit] || 0) + 1;
-            }
-            const hasFlush = Object.values(suitCounts).some(count => count >= 5);
-
-            const uniqueValues = [...new Set(allCards.map(card => cardValues.indexOf(card.slice(0, -1))))];
-            uniqueValues.sort((a, b) => a - b);
-            let hasStrait = false;
-            for (let i = 0; i < uniqueValues.length - 4; i++) {
-                if (uniqueValues[i+4] - uniqueValues[i] === 4) {
-                    hasStrait = true;
-                    break;
-                }
-            }
-
-            if (hasFlush && hasStrait) return { strength: 8, hand: getBestHand(allCards, valueCounts, suitCounts, 'Straight Flush') };
-            if (Object.values(valueCounts).includes(4)) return { strength: 7, hand: getBestHand(allCards, valueCounts, suitCounts, 'Four of a Kind') };
-            if (Object.values(valueCounts).includes(3) && Object.values(valueCounts).includes(2)) return { strength: 6, hand: getBestHand(allCards, valueCounts, suitCounts, 'Full House') };
-            if (hasFlush) return { strength: 5, hand: getBestHand(allCards, valueCounts, suitCounts, 'Flush') };
-            if (hasStrait) return { strength: 4, hand: getBestHand(allCards, valueCounts, suitCounts, 'Straight') };
-            if (Object.values(valueCounts).includes(3)) return { strength: 3, hand: getBestHand(allCards, valueCounts, suitCounts, 'Three of a Kind') };
-            if (Object.values(valueCounts).filter(count => count === 2).length === 2) return { strength: 2, hand: getBestHand(allCards, valueCounts, suitCounts, 'Two Pair') };
-            if (Object.values(valueCounts).includes(2)) return { strength: 1, hand: getBestHand(allCards, valueCounts, suitCounts, 'One Pair') };
-            return { strength: 0, hand: getBestHand(allCards, valueCounts, suitCounts, 'High Card') };
-        }
 
         function computerAction() {
             const player = players[currentPlayerIndex];
