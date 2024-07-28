@@ -182,12 +182,20 @@ function computerAction() {
         nextPlayer();
     }
 }
+
+
+
+
+
+
+
+
 function showdown() {
     const activePlayers = players.filter(p => !p.folded);
-    const handStrengths = activePlayers.map(player => ({
-        player,
-        ...evaluateHand(player.hand, communityCards)
-    }));
+    const handStrengths = activePlayers.map(player => {
+        const { strength, hand } = evaluateHand(player.hand, communityCards);
+        return { player, strength, hand };
+    });
 
     handStrengths.sort((a, b) => b.strength - a.strength);
 
