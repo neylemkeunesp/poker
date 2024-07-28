@@ -28,7 +28,7 @@ import { dealCards } from './shared.js';
         let currentBet = 0;
         let currentBettingRound = 0;
 
-import { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet, evaluateHand,  showdown } from './shared.js';
+import { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet, evaluateHand, computerAction, showdown } from './shared.js';
 
         function startBettingRound() {
             for (let i = 0; i < players.length; i++) {
