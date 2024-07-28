@@ -151,3 +151,34 @@ function evaluateHand(hand, communityCards) {
     if (Object.values(valueCounts).includes(2)) return { strength: 1, hand: getBestHand(allCards, valueCounts, suitCounts, 'One Pair') };
     return { strength: 0, hand: getBestHand(allCards, valueCounts, suitCounts, 'High Card') };
 }
+function computerAction() {
+    const player = players[currentPlayerIndex];
+    const handStrength = evaluateHand(player.hand, communityCards.slice(0, 3 + currentBettingRound));
+    const random = Math.random();
+
+    let raiseChance, callChance;
+
+    if (handStrength >= 5) {
+        raiseChance = 0.7;
+        callChance = 0.25;
+    } else if (handStrength >= 3) {
+        raiseChance = 0.4;
+        callChance = 0.4;
+    } else if (handStrength >= 1) {
+        raiseChance = 0.2;
+        callChance = 0.5;
+    } else {
+        raiseChance = 0.1;
+        callChance = 0.3;
+    }
+
+    if (random < raiseChance) {
+        const raiseAmount = Math.floor((handStrength + 1) * 10);
+        placeBet(currentBet - player.bet + raiseAmount);
+    } else if (random < raiseChance + callChance) {
+        placeBet(currentBet - player.bet);
+    } else {
+        player.folded = true;
+        nextPlayer();
+    }
+}

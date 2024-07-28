@@ -53,7 +53,7 @@ function simulateGame() {
         let currentBet = 0;
         let currentBettingRound = 0;
 
-import { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet, evaluateHand } from './shared.js';
+import { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet, evaluateHand, computerAction } from './shared.js';
 
         function startBettingRound() {
             for (let i = 0; i < players.length; i++) {
@@ -76,37 +76,6 @@ import { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, ch
 
 
 
-        function computerAction() {
-            const player = players[currentPlayerIndex];
-            const handStrength = evaluateHand(player.hand, communityCards.slice(0, 3 + currentBettingRound));
-            const random = Math.random();
-
-            let raiseChance, callChance;
-
-            if (handStrength >= 5) {
-                raiseChance = 0.7;
-                callChance = 0.25;
-            } else if (handStrength >= 3) {
-                raiseChance = 0.4;
-                callChance = 0.4;
-            } else if (handStrength >= 1) {
-                raiseChance = 0.2;
-                callChance = 0.5;
-            } else {
-                raiseChance = 0.1;
-                callChance = 0.3;
-            }
-
-            if (random < raiseChance) {
-                const raiseAmount = Math.floor((handStrength + 1) * 10);
-                placeBet(currentBet - player.bet + raiseAmount);
-            } else if (random < raiseChance + callChance) {
-                placeBet(currentBet - player.bet);
-            } else {
-                player.folded = true;
-                nextPlayer();
-            }
-        }
 
         function showdown() {
 
