@@ -129,12 +129,11 @@
 
             document.getElementById('simulate').addEventListener('click', simulateGame);
         function startNewGame() {
-            players = [
-                { name: "Você", hand: [], chips: 1000, bet: 0, folded: false, isHuman: true },
-                { name: "Computador 1", hand: [], chips: 1000, bet: 0, folded: false, isHuman: false },
-                { name: "Computador 2", hand: [], chips: 1000, bet: 0, folded: false, isHuman: false },
-                { name: "Computador 3", hand: [], chips: 1000, bet: 0, folded: false, isHuman: false }
-            ];
+            players.forEach(player => {
+                player.hand = [];
+                player.bet = 0;
+                player.folded = false;
+            });
             pot = 0;
             currentBet = 0;
             currentBettingRound = 0;
