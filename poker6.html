@@ -138,7 +138,11 @@
             currentBet = 0;
             currentBettingRound = 0;
             currentPlayerIndex = 0;
-            updateUI();
+            // Human player places an initial bet of 10
+            const humanPlayer = players.find(player => player.isHuman);
+            if (humanPlayer) {
+                placeBet(10);
+            }
         }
 
         document.getElementById('new-game').addEventListener('click', startNewGame);
