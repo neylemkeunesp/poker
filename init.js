@@ -10,7 +10,7 @@ const suits = ['♠', '♥', '♦', '♣'];
         let currentBet = 0;
         let currentBettingRound = 0;
 
-import { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet, evaluateHand, computerAction } from './shared.js';
+import { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet, evaluateHand, computerAction, showdown } from './shared.js';
 
         function startBettingRound() {
             for (let i = 0; i < players.length; i++) {
@@ -34,47 +34,6 @@ import { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, ch
 
 
 
-        function showdown() {
-
-            const activePlayers = players.filter(p => !p.folded);
-            const handStrengths = activePlayers.map(player => ({
-                player,
-                ...evaluateHand(player.hand, communityCards)
-            }));
-
-            handStrengths.sort((a, b) => b.strength - a.strength);
-
-            const winner = handStrengths.length > 0 ? handStrengths[0].player : null;
-            if (!winner) {
-                console.error("No winner found. Check the handStrengths array:", handStrengths);
-                console.error("No winner found. Check the handStrengths array:", handStrengths);
-                return;
-            }
-            winner.chips += pot;
-
-            let resultMessage = `Resultado do showdown:<br>${winner.name} ganhou ${pot} fichas com `;
-            resultMessage += handStrengths.map(hs => `<br>${hs.player.name} tinha ${hs.player.hand.map(formatCard).join('')} (Melhor mão: ${hs.hand.map(formatCard).join('')})`).join('');
-            resultMessage += `<br>Cartas dos jogadores restantes:`;
-            activePlayers.forEach(player => {
-                resultMessage += `<br>${player.name}: ${player.hand.map(formatCard).join('')}`;
-            });
-            switch(handStrengths[0].strength) {
-                case 8: resultMessage += "um Straight Flush!"; break;
-                case 7: resultMessage += "uma Quadra!"; break;
-                case 6: resultMessage += "um Full House!"; break;
-                case 5: resultMessage += "um Flush!"; break;
-                case 4: resultMessage += "um Straight!"; break;
-                case 3: resultMessage += "uma Trinca!"; break;
-                case 2: resultMessage += "Dois Pares!"; break;
-                case 1: resultMessage += "um Par!"; break;
-                case 0: resultMessage += "Carta Alta!"; break;
-            }
-            resultMessage += `<br>Melhor mão: ${handStrengths[0].hand.map(formatCard).join('')}`;
-            document.getElementById('community-cards').innerHTML = 'Cartas comunitárias: ' + communityCards.map(formatCard).join('');
-            document.getElementById('result').innerHTML = resultMessage;
-            updateUI();
-            logGameResult(resultMessage);
-        }
 
         function logGameResult(resultMessage) {
             console.log(resultMessage.replace(/<br>/g, '\n').replace(/<[^>]+>/g, ''));
