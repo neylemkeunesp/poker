@@ -118,7 +118,6 @@ import { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, ch
                         setTimeout(gameLoop, 1000); // Continue the game loop
                     } else {
                         if (!checkSinglePlayerLeft()) {
-                            showdown();
                         }
                     }
                 }
