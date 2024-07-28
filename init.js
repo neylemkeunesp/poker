@@ -100,27 +100,3 @@ import { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, ch
             return sortedCards.slice(0, 5); // High Card
         }
 
-        function simulateGame() {
-            dealCards();
-            setTimeout(() => {
-                function gameLoop() {
-                    if (!checkSinglePlayerLeft() && currentBettingRound < 4) {
-                        if (players[currentPlayerIndex].isHuman) {
-                            // Simulate human player actions
-                            if (Math.random() < 0.5) {
-                                document.getElementById('check').click();
-                            } else {
-                                document.getElementById('bet').click();
-                            }
-                        } else {
-                            computerAction();
-                        }
-                        setTimeout(gameLoop, 1000); // Continue the game loop
-                    } else {
-                        if (!checkSinglePlayerLeft()) {
-                        }
-                    }
-                }
-                gameLoop();
-            }, 1000);
-        }
