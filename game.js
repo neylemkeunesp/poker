@@ -6,7 +6,7 @@ function simulateGame() {
 }
 
 
-            document.getElementById('simulate').addEventListener('click', simulateGame);
+            // document.getElementById('simulate').addEventListener('click', simulateGame);
             players.forEach(player => {
                 player.hand = [];
                 player.bet = 0;
