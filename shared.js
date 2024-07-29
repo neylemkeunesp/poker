@@ -1,4 +1,5 @@
 let deck = [];
+let communityCards = [];
 
 export function createDeck() {
     deck = [];
