@@ -6,6 +6,12 @@ let players = [];
 let currentPlayerIndex = 0;
 let currentBettingRound = 0;
 
+function validateCurrentPlayer() {
+    if (players.length === 0 || currentPlayerIndex < 0 || currentPlayerIndex >= players.length) {
+        throw new Error("Invalid current player index or empty players array.");
+    }
+}
+
 export function createDeck() {
     deck = [];
     for (let suit of suits) {
