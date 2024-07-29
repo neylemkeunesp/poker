@@ -1,28 +1,21 @@
 import { createDeck, shuffle, updateUI, formatCard, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet, evaluateHand, computerAction, showdown, dealCards, startInitialBettingRound } from './shared.js';
 
+const suits = ['♠', '♥', '♦', '♣'];
+const cardValues = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+let deck = [];
+let communityCards = [];
+let players = [];
+let currentPlayerIndex = 0;
+let pot = 0;
+let currentBet = 0;
+let currentBettingRound = 0;
+
 function simulateGame() {
     // Add the logic for simulating the game here
     console.log("Simulating game...");
 }
 
-
-            // document.getElementById('simulate').addEventListener('click', simulateGame);
-            players.forEach(player => {
-                player.hand = [];
-                player.bet = 0;
-                player.folded = false;
-            });
-            pot = 0;
-            currentBet = 0;
-            currentBettingRound = 0;
-            currentPlayerIndex = 0;
-            // Human player places an initial bet of 10
-            const humanPlayer = players.find(player => player.isHuman);
-            if (humanPlayer) {
-                placeBet(10);
-            }
-
-        document.getElementById('new-game').addEventListener('click', startNewGame);
+document.getElementById('new-game').addEventListener('click', startNewGame);
         const suits = ['♠', '♥', '♦', '♣'];
         const cardValues = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
         let deck = [];
