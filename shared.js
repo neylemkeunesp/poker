@@ -8,6 +8,7 @@ let players = [
     { name: 'Player 3', isHuman: false, hand: [], bet: 0, folded: false, chips: 1000 },
     { name: 'Player 4', isHuman: false, hand: [], bet: 0, folded: false, chips: 1000 }
 ];
+let currentBet = 0;
 let currentPlayerIndex = 0;
 let currentBettingRound = 0;
 
