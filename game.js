@@ -1,5 +1,10 @@
 import { createDeck, shuffle, updateUI, formatCard, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet, evaluateHand, computerAction, showdown, dealCards, startInitialBettingRound } from './shared.js';
 
+function simulateGame() {
+    // Add the logic for simulating the game here
+    console.log("Simulating game...");
+}
+
 
             document.getElementById('simulate').addEventListener('click', simulateGame);
             players.forEach(player => {
