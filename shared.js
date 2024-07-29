@@ -51,13 +51,13 @@ export function updateUI() {
         const playerChips = player.chips !== undefined && !isNaN(player.chips) && player.chips >= 0 ? player.chips : 0;
         return `
             <div class="player-area ${index === currentPlayerIndex ? 'current-player' : ''} ${player.folded ? 'folded-player' : ''}">
-                <strong>${player.name}</strong> (${playerChips} fichas)
+                <strong>${player.name}</strong> (${playerChips.toFixed(2)} fichas)
                 ${player.folded ? ' (Desistiu)' : ''}
                 ${index === currentPlayerIndex ? ' (Jogando)' : ''}
                 <br>
                 Mão: ${player.hand.map(card => card === 'back' ? formatCard(card) : formatCard(card)).join('')}
                 <br>
-                Aposta atual: ${player.bet || 0}
+                Aposta atual: ${(player.bet || 0).toFixed(2)}
             </div>
         `;
     });
@@ -68,7 +68,7 @@ export function updateUI() {
         <div>${playerAreas[2]}</div>
         <div>${playerAreas[3]}</div>
     `;
-    document.getElementById('pot').innerHTML = `Pote: ${pot}`;
+    document.getElementById('pot').innerHTML = `Pote: ${pot.toFixed(2)}`;
     document.getElementById('betting-round').innerHTML = `Rodada de apostas: ${['Pré-flop', 'Flop', 'Turn', 'River'][currentBettingRound]}`;
     const currentPlayer = players[currentPlayerIndex];
     validateCurrentPlayer();
