@@ -55,7 +55,7 @@ function updateUI() {
     document.getElementById('fold').disabled = !currentPlayer.isHuman;
 }
 
-function formatCard(card) {
+export function formatCard(card) {
     if (card === 'back') {
         return '<div class="card-back" style="display: inline-block;"></div>';
     } else {
