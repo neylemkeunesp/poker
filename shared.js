@@ -47,6 +47,7 @@ export function updateUI() {
     document.getElementById('pot').innerHTML = `Pote: ${pot}`;
     document.getElementById('betting-round').innerHTML = `Rodada de apostas: ${['Pré-flop', 'Flop', 'Turn', 'River'][currentBettingRound]}`;
     const currentPlayer = players[currentPlayerIndex];
+    validateCurrentPlayer();
     const canCheck = currentPlayer.bet === currentBet;
     document.getElementById('check').disabled = !canCheck || !currentPlayer.isHuman;
     document.getElementById('call').disabled = canCheck || !currentPlayer.isHuman;
