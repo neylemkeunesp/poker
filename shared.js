@@ -71,7 +71,7 @@ export function startInitialBettingRound() {
         setTimeout(computerAction, 1000);
     }
 }
-function checkSinglePlayerLeft() {
+export function checkSinglePlayerLeft() {
     const activePlayers = players.filter(p => !p.folded);
     return activePlayers.length === 1;
 }
