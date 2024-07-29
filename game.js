@@ -23,7 +23,11 @@ function startNewGame() {
         return;
     }
     deck = createDeck();
-    shuffle(deck);
+    if (deck.length > 0) {
+        shuffle(deck);
+    } else {
+        console.error("Deck is empty, cannot shuffle.");
+    }
     communityCards = [];
     players.forEach(player => {
         player.hand = [];
