@@ -164,7 +164,7 @@ export function placeBet(amount) {
     nextPlayer();
 }
 export function evaluateHand(hand, communityCards) {
-    const allCards = [...hand, ...communityCards];
+    const allCards = [...hand, ...communityCards].filter(card => card !== undefined);
     
     const valueCounts = {};
     for (let card of allCards) {
