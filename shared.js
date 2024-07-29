@@ -19,7 +19,7 @@ export function shuffle(array) {
     }
 }
 
-function updateUI() {
+export function updateUI() {
     const communityCardsToShow = currentBettingRound > 0 ? communityCards.slice(0, 3 + currentBettingRound) : communityCards.map(() => 'back');
     document.getElementById('community-cards').innerHTML = 'Cartas comunitárias: ' +
         communityCardsToShow.map(formatCard).join('');
