@@ -2,7 +2,12 @@ const suits = ['♠', '♥', '♦', '♣'];
 const cardValues = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 let deck = [];
 let communityCards = [];
-let players = [];
+let players = [
+    { name: 'Player 1', isHuman: true, hand: [], bet: 0, folded: false, chips: 1000 },
+    { name: 'Player 2', isHuman: false, hand: [], bet: 0, folded: false, chips: 1000 },
+    { name: 'Player 3', isHuman: false, hand: [], bet: 0, folded: false, chips: 1000 },
+    { name: 'Player 4', isHuman: false, hand: [], bet: 0, folded: false, chips: 1000 }
+];
 let currentPlayerIndex = 0;
 let currentBettingRound = 0;
 

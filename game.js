@@ -18,7 +18,10 @@ function simulateGame() {
 function startNewGame() {
     // Add the logic for starting a new game here
     console.log("Starting new game...");
-    // Reset game state
+    if (players.length === 0) {
+        console.error("No players available to start the game.");
+        return;
+    }
     deck = createDeck();
     shuffle(deck);
     communityCards = [];
