@@ -95,6 +95,25 @@ export function startInitialBettingRound() {
         setTimeout(computerAction, 1000);
     }
 }
+export function startBettingRound() {
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].isHuman) {
+            players[i].hand = [deck.pop(), deck.pop()];
+        } else {
+            players[i].hand = ['back', 'back'];
+        }
+    }
+    currentPlayerIndex = (currentPlayerIndex + 1) % players.length; // Move to the next player
+    for (let player of players) {
+        player.bet = 0;
+    }
+    currentBet = 0;
+    updateUI();
+    if (!players[currentPlayerIndex].isHuman) {
+        setTimeout(computerAction, 1000);
+    }
+}
+
 export function checkSinglePlayerLeft() {
     const activePlayers = players.filter(p => !p.folded);
     return activePlayers.length === 1;
