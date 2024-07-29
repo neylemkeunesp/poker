@@ -7,7 +7,7 @@ export function createDeck() {
     }
 }
 
-function dealCards() {
+export function dealCards() {
     communityCards = [deck.pop(), deck.pop(), deck.pop(), deck.pop(), deck.pop()];
     updateUI();
 }
