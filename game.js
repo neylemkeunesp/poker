@@ -36,6 +36,12 @@ function startNewGame() {
 
 document.getElementById('new-game').addEventListener('click', startNewGame);
 
+function validateCurrentPlayer() {
+    if (players.length === 0 || currentPlayerIndex < 0 || currentPlayerIndex >= players.length) {
+        throw new Error("Invalid current player index or empty players array.");
+    }
+}
+
         function startBettingRound() {
             for (let i = 0; i < players.length; i++) {
                 if (players[i].isHuman) {
