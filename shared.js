@@ -3,6 +3,7 @@ const cardValues = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K',
 let deck = [];
 let communityCards = [];
 let players = [];
+let currentPlayerIndex = 0;
 let currentBettingRound = 0;
 
 export function createDeck() {
