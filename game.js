@@ -16,15 +16,6 @@ function simulateGame() {
 }
 
 document.getElementById('new-game').addEventListener('click', startNewGame);
-        const suits = ['♠', '♥', '♦', '♣'];
-        const cardValues = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-        let deck = [];
-        let communityCards = [];
-        let players = [];
-        let currentPlayerIndex = 0;
-        let pot = 0;
-        let currentBet = 0;
-        let currentBettingRound = 0;
 
         function startBettingRound() {
             for (let i = 0; i < players.length; i++) {
