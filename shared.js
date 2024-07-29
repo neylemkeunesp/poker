@@ -1,3 +1,5 @@
+let deck = [];
+
 export function createDeck() {
     deck = [];
     for (let suit of suits) {
