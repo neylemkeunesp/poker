@@ -195,7 +195,7 @@ function computerAction() {
 
 
 
-function showdown() {
+export function showdown() {
     const activePlayers = players.filter(p => !p.folded);
     const handStrengths = activePlayers.map(player => {
         const { strength, hand } = evaluateHand(player.hand, communityCards);
