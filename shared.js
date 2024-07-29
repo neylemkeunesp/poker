@@ -111,7 +111,7 @@ function checkRoundEnd() {
     return allEqualBets;
 }
 
-function placeBet(amount) {
+export function placeBet(amount) {
     const player = players[currentPlayerIndex];
     const actualBet = Math.min(amount, player.chips !== undefined ? player.chips : 0);
     player.chips = Math.max(0, (player.chips !== undefined ? player.chips : 0) - actualBet);
