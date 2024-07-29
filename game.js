@@ -15,6 +15,25 @@ function simulateGame() {
     console.log("Simulating game...");
 }
 
+function startNewGame() {
+    // Add the logic for starting a new game here
+    console.log("Starting new game...");
+    // Reset game state
+    deck = createDeck();
+    shuffle(deck);
+    communityCards = [];
+    players.forEach(player => {
+        player.hand = [];
+        player.bet = 0;
+        player.folded = false;
+    });
+    pot = 0;
+    currentBet = 0;
+    currentBettingRound = 0;
+    currentPlayerIndex = 0;
+    startInitialBettingRound();
+}
+
 document.getElementById('new-game').addEventListener('click', startNewGame);
 
         function startBettingRound() {
