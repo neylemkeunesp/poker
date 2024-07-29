@@ -1,5 +1,6 @@
 let deck = [];
 let communityCards = [];
+let currentBettingRound = 0;
 
 export function createDeck() {
     deck = [];
