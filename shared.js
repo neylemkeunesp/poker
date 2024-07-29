@@ -80,7 +80,9 @@ export function updateUI() {
 }
 
 export function formatCard(card) {
-    if (card === 'back') {
+    if (!card) {
+        return '<div class="card-placeholder" style="display: inline-block;"></div>';
+    } else if (card === 'back') {
         return '<div class="card-back" style="display: inline-block;"></div>';
     } else {
         const isRed = card.includes('♥') || card.includes('♦');
