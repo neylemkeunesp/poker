@@ -11,6 +11,7 @@ export let players = [
 let currentBet = 0;
 let currentPlayerIndex = 0;
 let currentBettingRound = 0;
+let pot = 0;
 
 function validateCurrentPlayer() {
     if (players.length === 0 || currentPlayerIndex < 0 || currentPlayerIndex >= players.length) {
@@ -68,7 +69,7 @@ export function updateUI() {
         <div>${playerAreas[2]}</div>
         <div>${playerAreas[3]}</div>
     `;
-    document.getElementById('pot').innerHTML = `Pote: ${pot.toFixed(2)}`;
+    document.getElementById('pot').innerHTML = `Pote: ${(pot || 0).toFixed(2)}`;
     document.getElementById('betting-round').innerHTML = `Rodada de apostas: ${['Pré-flop', 'Flop', 'Turn', 'River'][currentBettingRound]}`;
     const currentPlayer = players[currentPlayerIndex];
     validateCurrentPlayer();
