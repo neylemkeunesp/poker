@@ -76,7 +76,7 @@ export function checkSinglePlayerLeft() {
     return activePlayers.length === 1;
 }
 
-function endGame() {
+export function endGame() {
     const winner = players.find(p => !p.folded);
     winner.chips += pot;
     document.getElementById('result').innerHTML = `${winner.name} ganhou o jogo com ${winner.chips} fichas restantes!`;
