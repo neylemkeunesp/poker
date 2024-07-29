@@ -83,7 +83,7 @@ function endGame() {
     updateUI();
 }
 
-function nextPlayer() {
+export function nextPlayer() {
     do {
         currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
     } while (players[currentPlayerIndex].folded && players.some(p => !p.folded));
