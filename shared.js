@@ -120,7 +120,7 @@ function placeBet(amount) {
     currentBet = Math.max(currentBet, player.bet);
     nextPlayer();
 }
-function evaluateHand(hand, communityCards) {
+export function evaluateHand(hand, communityCards) {
     const allCards = [...hand, ...communityCards];
     
     const valueCounts = {};
