@@ -64,7 +64,7 @@ function formatCard(card) {
     }
 }
 
-function startInitialBettingRound() {
+export function startInitialBettingRound() {
     currentPlayerIndex = 0; // Start with the human player
     updateUI();
     if (!players[currentPlayerIndex].isHuman) {
