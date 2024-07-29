@@ -1,4 +1,4 @@
-import { dealCards } from './shared.js';
+import { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet, evaluateHand, computerAction, showdown, dealCards } from './shared.js';
 
 
             document.getElementById('simulate').addEventListener('click', simulateGame);

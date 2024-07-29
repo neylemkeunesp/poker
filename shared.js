@@ -7,7 +7,12 @@ function createDeck() {
     }
 }
 
-export { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet, evaluateHand, computerAction, showdown };
+function dealCards() {
+    communityCards = [deck.pop(), deck.pop(), deck.pop(), deck.pop(), deck.pop()];
+    updateUI();
+}
+
+export { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet, evaluateHand, computerAction, showdown, dealCards };
 
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {

@@ -1,4 +1,4 @@
-import { dealCards } from './shared.js';
+import { createDeck, shuffle, updateUI, formatCard, startInitialBettingRound, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet, evaluateHand, computerAction, showdown, dealCards } from './shared.js';
 
 const suits = ['♠', '♥', '♦', '♣'];
         const cardValues = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
