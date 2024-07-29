@@ -1,4 +1,4 @@
-function createDeck() {
+export function createDeck() {
     deck = [];
     for (let suit of suits) {
         for (let value of cardValues) {
