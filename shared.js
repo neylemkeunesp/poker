@@ -105,7 +105,7 @@ export function nextPlayer() {
     }
 }
 
-function checkRoundEnd() {
+export function checkRoundEnd() {
     const activePlayers = players.filter(p => !p.folded);
     const allEqualBets = activePlayers.every(p => p.bet === currentBet);
     return allEqualBets;
