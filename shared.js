@@ -257,10 +257,6 @@ export function logGameResult(resultMessage) {
     console.log(resultMessage.replace(/<br>/g, '\n').replace(/<[^>]+>/g, ''));
 }
 
-export function logGameResult(resultMessage) {
-    console.log(resultMessage.replace(/<br>/g, '\n').replace(/<[^>]+>/g, ''));
-}
-
 export function computerAction() {
     const player = players[currentPlayerIndex];
     const handStrength = evaluateHand(player.hand, communityCards.slice(0, 3 + currentBettingRound));
