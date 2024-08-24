@@ -19,10 +19,6 @@ function validateCurrentPlayer() {
     }
 }
 
-export function logGameResult(resultMessage) {
-    console.log(resultMessage.replace(/<br>/g, '\n').replace(/<[^>]+>/g, ''));
-}
-
 export function createDeck() {
     deck = [];
     for (let suit of suits) {
