@@ -253,6 +253,10 @@ export function evaluateHand(hand, communityCards) {
     if (Object.values(valueCounts).includes(2)) return { strength: 1, hand: getBestHand(allCards, valueCounts, suitCounts, 'One Pair') };
     return { strength: 0, hand: getBestHand(allCards, valueCounts, suitCounts, 'High Card') };
 }
+export function logGameResult(resultMessage) {
+    console.log(resultMessage.replace(/<br>/g, '\n').replace(/<[^>]+>/g, ''));
+}
+
 export function computerAction() {
     const player = players[currentPlayerIndex];
     const handStrength = evaluateHand(player.hand, communityCards.slice(0, 3 + currentBettingRound));
