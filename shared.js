@@ -292,6 +292,10 @@ export function computerAction() {
 
 
 
+export function logGameResult(resultMessage) {
+    console.log(resultMessage.replace(/<br>/g, '\n').replace(/<[^>]+>/g, ''));
+}
+
 export function showdown() {
     const activePlayers = players.filter(p => !p.folded);
     const handStrengths = activePlayers.map(player => {

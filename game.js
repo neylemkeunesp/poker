@@ -54,9 +54,6 @@ function validateCurrentPlayer() {
 
 
 
-        function logGameResult(resultMessage) {
-            console.log(resultMessage.replace(/<br>/g, '\n').replace(/<[^>]+>/g, ''));
-        }
 
         document.getElementById('deal').addEventListener('click', dealCards);
         document.getElementById('check').addEventListener('click', () => nextPlayer());
