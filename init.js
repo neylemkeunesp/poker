@@ -1,4 +1,4 @@
-import { createDeck, shuffle, updateUI, formatCard, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet, evaluateHand, computerAction, showdown, dealCards, startInitialBettingRound } from './shared.js';
+import { createDeck, shuffle, updateUI, formatCard, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet, evaluateHand, computerAction, showdown, dealCards, startInitialBettingRound, startBettingRound } from './shared.js';
 
 const suits = ['♠', '♥', '♦', '♣'];
         const cardValues = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
@@ -10,24 +10,6 @@ const suits = ['♠', '♥', '♦', '♣'];
         let currentBet = 0;
         let currentBettingRound = 0;
 
-        function startBettingRound() {
-            for (let i = 0; i < players.length; i++) {
-                if (players[i].isHuman) {
-                    players[i].hand = [deck.pop(), deck.pop()];
-                } else {
-                    players[i].hand = ['back', 'back'];
-                }
-            }
-            currentPlayerIndex = (currentPlayerIndex + 1) % players.length; // Move to the next player
-            for (let player of players) {
-                player.bet = 0;
-            }
-            currentBet = 0;
-            updateUI();
-            if (!players[currentPlayerIndex].isHuman) {
-                setTimeout(computerAction, 1000);
-            }
-        }
 
 
 
