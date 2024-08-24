@@ -2,8 +2,8 @@ import { createDeck, shuffle, updateUI, formatCard, checkSinglePlayerLeft, endGa
 
 const suits = ['♠', '♥', '♦', '♣'];
 const cardValues = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-let communityCards = [];
 import { players, startBettingRound, deck } from './shared.js';
+let communityCards = [];
 let currentPlayerIndex = 0;
 let pot = 0;
 let currentBet = 0;
