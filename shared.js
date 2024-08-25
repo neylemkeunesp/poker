@@ -1,6 +1,6 @@
 const suits = ['♠', '♥', '♦', '♣'];
 const cardValues = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-export let deck = [];
+let deck = [];
 let communityCards = [];
 export let players = [
     { name: 'Player 1', isHuman: true, hand: [], bet: 0, folded: false, chips: 1000 },
