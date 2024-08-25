@@ -1,7 +1,8 @@
-import { createDeck, shuffle, updateUI, formatCard, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet, evaluateHand, computerAction, showdown, dealCards, startInitialBettingRound, deck, players, startBettingRound, logGameResult } from './shared.js';
+import { createDeck, shuffle, updateUI, formatCard, checkSinglePlayerLeft, endGame, nextPlayer, checkRoundEnd, placeBet, evaluateHand, computerAction, showdown, dealCards, startInitialBettingRound, players, startBettingRound, logGameResult } from './shared.js';
 
 const suits = ['♠', '♥', '♦', '♣'];
 const cardValues = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+let deck = [];
 let communityCards = [];
 let currentPlayerIndex = 0;
 let pot = 0;
