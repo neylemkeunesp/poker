@@ -21,6 +21,7 @@ function startNewGame() {
         console.error("No players available to start the game.");
         return;
     }
+    deck=[]
     deck = createDeck();
     if (deck.length > 0) {
         shuffle(deck);
