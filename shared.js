@@ -18,6 +18,7 @@ function validateCurrentPlayer() {
         throw new Error("Invalid current player index or empty players array.");
     }
     return deck;
+    return deck;
 }
 
 export function createDeck() {
