@@ -19,6 +19,7 @@ function validateCurrentPlayer() {
     }
     return deck;
     return deck;
+    return deck;
 }
 
 export function createDeck() {
